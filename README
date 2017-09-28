@@ -1,0 +1,14 @@
+
+As of now, libtermio isn't ready for production. To use the code
+generate a configure script with the autogen shell script:
+./autogen.sh
+
+Configure the build, current configuration for testing used by dev is as follows
+./configure --prefix=/opt/termio/ --enable-debug --enable-static --enable-documentation
+
+Build the library / doc:
+make all
+
+! WARN: Be sure to have autoconf-archive along with a2x and doxygen, or configure won't succeed. For doxygen / a2x, you may try to disable building the documentation. Note that ctags is required to compile the project !
+
+If you want to use shared libraries, libtool won't produce binaries but wrapper script to setup program environment (library path, etc) before launch. Thus, you won't be able to debug it, unless you launch it with libtool --mode=execute gdb /path/to/shwrapper

@@ -1,0 +1,23 @@
+
+TODO list for MS4L project
+
+Network configuration:
+ -> Retrieve from file
+ -> Get existing config (veth pairs, etc...)
+    -> If our config already exists
+        -> If no other msldaemon is running, delete all and re-create
+
+CoAP client in daemon:
+  -> Finish token generation and message tracking in resp_hdlr()
+  
+CoAP root server - fakeinit:
+  -> Implement abilities in nodes
+  -> Implement services (a service dir containing each service as a subdir)
+  -> Implement service redeploying / storage (tar.lzo archives)
+    -> Handle block transfers in CoAP
+    -> Ability to compress and send an archive (using hash as indication of successfull transfer).
+    -> If node hasn't storage ability set, don't keep archive.
+
+Coding convention refactoring:
+  -> static methods begin with _<submodule>, ex : _coapclt
+  -> exported methods begin with _<module>_<submodule> ex : _dmn_coapclt

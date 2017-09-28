@@ -1,0 +1,38 @@
+/*
+ * termio.h -- main header file for termio
+ *
+ * Copyright (C) 2016 Axel Moinet <axel.moinet@u-bourgogne.fr>
+ *
+ * This file is part of the termio library. Please see README for terms
+ * of use. Inspired by libcoap coap.h.in, see https://github.com/obgm/libcoap
+ */
+
+#ifndef _TERMIO_H_
+#define _TERMIO_H_
+
+#include <termio/terminal.h>
+
+/* Define the address where bug reports for libcoap should be sent. */
+#define LIBTERMIO_PACKAGE_BUGREPORT @PACKAGE_BUGREPORT@
+
+/* Define the full name of libcoap. */
+#define LIBTERMIO_PACKAGE_NAME @PACKAGE_NAME@
+
+/* Define the full name and version of libcoap. */
+#define LIBTERMIO_PACKAGE_STRING @PACKAGE_STRING@
+
+/* Define the home page for libcoap. */
+#define LIBTERMIO_PACKAGE_URL @PACKAGE_URL@
+
+/* Define the version of libcoap this file belongs to. */
+#define LIBTERMIO_PACKAGE_VERSION @PACKAGE_VERSION@
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* _TERMIO_H_ */
