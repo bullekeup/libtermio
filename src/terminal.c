@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <signal.h>
 #include <termios.h>
+#include <linux/limits.h>
+#include <fcntl.h>
 
 #include <termio/debug.h>
 #include <termio/terminal.h>
@@ -25,10 +27,21 @@
 #define FD_MAX_CHAR_SIZE 5
 
 static int openpty_wrap(struct term_instance *inst) {
-	if(openpty(&(inst->master), &(inst->slave), NULL, NULL, NULL)) {
+	char ptyname[PATH_MAX];
+	char *tty;
+	if(openpty(&(inst->master), &(inst->slave), ptyname, NULL, NULL)) {
 		inst->master = 0;
 		inst->slave = 0;
 		print_error("Failed to get new pty descriptors");
+		return -1;
+	}
+	tty = ttyname(((struct term_instance *)inst)->master);
+	print_debug("New pty opened, master %d (%s) - slave %d (%s)", 
+		inst->master, tty, inst->slave, ptyname);
+	print_debug("Reopening slave using filename...");
+	close(inst->slave);
+	if ((inst->slave = open(ptyname, O_RDWR)) == -1) {
+		print_error("Failed to reopen pty file %s", ptyname);
 		return -1;
 	}
 	return 0;
@@ -37,7 +50,7 @@ static int openpty_wrap(struct term_instance *inst) {
 static const struct term_desc urxvtDesc = {
 	.cmd = "urxvt",
 	.embeddable = 1,
-	.arg_class = NULL,
+	.arg_class = "-name",
 	.arg_title = "-T",
 	.arg_icon = "-icon",
 	.arg_into_win = "-embed",

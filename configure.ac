@@ -129,13 +129,13 @@ AX_CHECK_COMPILE_FLAG([-Wunused-result], [WARNING_CFLAGS="$WARNING_CFLAGS -Wunus
 AC_SUBST([WARNING_CFLAGS])
 
 AX_CHECK_LINK_FLAG([-Wl,--version-script=../../libtermio-${LIBTERMIO_API_VERSION}.map],
-                   [libtermio_SYMBOLS="-Wl,--version-script=../../libtermio-\$(LIBTERMIO_API_VERSION).map"],
-                   [libtermio_SYMBOLS="-export-symbols ../../libtermio-\$(LIBTERMIO_API_VERSION).sym"])
+                   [libtermio_SYMBOLS="-Wl,--version-script=../libtermio-\$(LIBTERMIO_API_VERSION).map"],
+                   [libtermio_SYMBOLS="-export-symbols ../libtermio-\$(LIBTERMIO_API_VERSION).sym"])
 AC_SUBST(libtermio_SYMBOLS)
 
 AX_CHECK_LINK_FLAG([-Wl,--version-script=../../libtermio-${LIBTERMIO_API_VERSION}.map],
-                   [libtermio_SYMBOLS="-Wl,--version-script=../../libtermio-\$(LIBTERMIO_API_VERSION).map"],
-                   [libtermio_SYMBOLS="-export-symbols ../../libtermio-\$(LIBTERMIO_API_VERSION).sym"])
+                   [libtermio_SYMBOLS="-Wl,--version-script=../libtermio-\$(LIBTERMIO_API_VERSION).map"],
+                   [libtermio_SYMBOLS="-export-symbols ../libtermio-\$(LIBTERMIO_API_VERSION).sym"])
 AC_SUBST(libtermio_SYMBOLS)
 
 # configure options
@@ -270,7 +270,7 @@ AC_ARG_ENABLE([debug],
               [debug="${enableval}"],
               [debug="no"])
 if test "x$debug" = "xyes"; then
-    CONFIGURE_CFLAGS="-O0 -ggdb"
+    CONFIGURE_CFLAGS="-DDEBUG -O0 -ggdb"
 fi
 AM_CONDITIONAL(DEBUG, [test "x$debug" = "xyes"])
 

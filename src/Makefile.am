@@ -56,13 +56,13 @@ libtermio-$(LIBTERMIO_API_VERSION).map: check_ctags $(libtermio_include_HEADERS)
 	echo "local:" ; \
 	echo "  *;" ; \
 	echo "};" ) > $@.new
-	mv $@.new ../../$@
+	mv $@.new ../$@
 
 # | awk '/^coap_/ { print "  " $$1 ";" }'
 libtermio-$(LIBTERMIO_API_VERSION).sym: check_ctags $(libtermio_include_HEADERS)
 	( $(CTAGS_PROG) $(CTAGS_IGNORE) -f - --c-kinds=p $(libtermio_include_HEADERS) | awk '/.*/ { print $$1 }' | sort ) \
 	> $@.new
-	mv $@.new ../../$@
+	mv $@.new ../$@
 
 # If there is a API change to something $(LIBTERMIO_API_VERSION) > 1 the install
 # prefix for the header files has to change to not conflict the older version

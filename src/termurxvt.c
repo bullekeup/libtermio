@@ -8,6 +8,7 @@
 #include <termios.h>
 #include <string.h>
 #include <errno.h>
+#include <time.h>
 
 #include <termio/terminal.h>
 #include <termio/ansicodes.h>
@@ -17,13 +18,16 @@
 int check_running_urxvt(const void *inst) {
 	char _read[5];
 
+	sleep(1);
 	if(raw_mode((struct term_instance *)inst))
 		return -1;
 
+	/* DOESNT WORK ON RPIs, just bypass and hope sleep(1) will be sufficient...
 	do {
 		write(((struct term_instance *)inst)->slave, ANSI_REQ_STATUS, sizeof(ANSI_REQ_STATUS));
 		read(((struct term_instance *)inst)->slave, _read, 5);
 	} while(strcmp(_read, ANSI_REP_STATUS_OK));
+	*/
 
 	reset_mode((struct term_instance *)inst);
 	return 0;

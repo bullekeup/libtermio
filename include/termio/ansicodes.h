@@ -8,8 +8,8 @@
 #ifndef LIB_TERMINAL_ANSICODES_H_
 #define LIB_TERMINAL_ANSICODES_H_
 
-#define ANSI_ESC "\033"
-#define ANSI_CSI "\x1b["
+#define ANSI_ESC "\e"
+#define ANSI_CSI "\e["
 
 #define ANSI_REQ_STATUS ANSI_ESC "[5n"
 
