@@ -336,6 +336,7 @@ AC_CHECK_FUNCS([memset select socket strcasecmp strrchr getaddrinfo \
 # Check if -lsocket -lnsl is required (specifically Solaris)
 AC_SEARCH_LIBS([socket], [socket])
 AC_SEARCH_LIBS([inet_ntop], [nsl])
+AC_SEARCH_LIBS([openpty], [util])
 
 # Check if clock_gettime() requires librt, when available
 AC_SEARCH_LIBS([clock_gettime], [rt])

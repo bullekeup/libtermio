@@ -27,21 +27,35 @@
 #define FD_MAX_CHAR_SIZE 5
 
 static int openpty_wrap(struct term_instance *inst) {
-	char ptyname[PATH_MAX];
+	char *pts;
 	char *tty;
-	if(openpty(&(inst->master), &(inst->slave), ptyname, NULL, NULL)) {
+	/*if(openpty(&(inst->master), &(inst->slave), ptyname, NULL, NULL)) {
 		inst->master = 0;
 		inst->slave = 0;
-		print_error("Failed to get new pty descriptors");
+		print_error("Failed to get new pty descriptors: %s '%d'", 
+					strerror(errno), errno);
 		return -1;
 	}
-	tty = ttyname(((struct term_instance *)inst)->master);
-	print_debug("New pty opened, master %d (%s) - slave %d (%s)", 
-		inst->master, tty, inst->slave, ptyname);
-	print_debug("Reopening slave using filename...");
-	close(inst->slave);
-	if ((inst->slave = open(ptyname, O_RDWR)) == -1) {
-		print_error("Failed to reopen pty file %s", ptyname);
+	tty = ttyname(((struct term_instance *)inst)->master);*/
+	if ((inst->master = posix_openpt(O_RDWR | O_NOCTTY)) == -1) {
+		inst->master = 0;
+		inst->slave = 0;
+		print_error("Failed to get pty master descriptors: %s '%d'", 
+					strerror(errno), errno);
+		return -1;
+	}
+	if (unlockpt(inst->master) == -1 
+		|| (pts = ptsname(inst->master)) == NULL) {
+		close(inst->master);
+		inst->master = 0;
+		inst->slave = 0;
+		print_error("Failed to get pts slave name: %s '%d'", 
+					strerror(errno), errno);
+		return -1;
+	}
+	print_debug("Opening slave using filename...");
+	if ((inst->slave = open(pts, O_RDWR)) == -1) {
+		print_error("Failed to open pty file %s", pts);
 		return -1;
 	}
 	return 0;
